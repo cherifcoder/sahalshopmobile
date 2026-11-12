@@ -391,7 +391,7 @@ Le backend est déployé sur Vercel dans le projet `sahal-shop-api` :
 - Santé : `https://sahal-shop-api.vercel.app/api/health`
 - Déploiement : `cd backend && npx vercel deploy --prod --yes`
 
-Vercel détecte l'application Express via `src/app.js`. La connexion MongoDB est établie de façon idempotente par `ensureDatabase()` pour être réutilisée entre les invocations serverless.
+Le fichier `backend/vercel.json` force le framework `express` ; l'entrée est `src/app.js`. La connexion MongoDB est établie de façon idempotente par `ensureDatabase()` pour être réutilisée entre les invocations serverless.
 
 Variables d'environnement à définir dans **Vercel → Project → Settings → Environment Variables** : `MONGODB_URI`, `MONGODB_DB`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `CORS_ORIGIN`, `SHOP_*`, `CURRENCY`, `CURRENCY_LABEL`, `TIMEZONE`.
 
