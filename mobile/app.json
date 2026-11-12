@@ -3,7 +3,7 @@
     "name": "SAHAL SHOP",
     "slug": "sahalshop",
     "owner": "cherifcoder",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "sahalshop",
@@ -15,7 +15,7 @@
     },
     "android": {
       "package": "com.sahalshop.app",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
