@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "SAHAL SHOP",
+    "slug": "sahalshop",
+    "owner": "cherifcoder",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "sahalshop",
+    "userInterfaceStyle": "light",
+    "description": "Point de vente et gestion de boutique SAHAL SHOP.",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sahalshop.app"
+    },
+    "android": {
+      "package": "com.sahalshop.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sharing",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFFFFF"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8ea3a6ee-f299-42aa-b9ab-486db14b4314"
+      }
+    }
+  }
+}

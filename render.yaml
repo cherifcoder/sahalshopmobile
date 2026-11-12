@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: sahal-shop-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB
+        value: sahal_shop
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: SHOP_NAME
+        value: SAHAL SHOP
+      - key: SHOP_PHONE
+        sync: false
+      - key: SHOP_ADDRESS
+        value: Dakar, Sénégal
+      - key: SHOP_EMAIL
+        sync: false
+      - key: CURRENCY
+        value: XOF
+      - key: CURRENCY_LABEL
+        value: FCFA
+      - key: TIMEZONE
+        value: Africa/Dakar
