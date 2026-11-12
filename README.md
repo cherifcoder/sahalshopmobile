@@ -9,12 +9,12 @@ Elle réunit la caisse, le stock, les ventes à crédit, les clients, les dépen
 
 ## Liens rapides
 
-- **APK Android 1.1.1** : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.1/sahal-shop-1.1.1.apk`
-- **Release GitHub** : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.1`
+- **APK Android 1.1.2** : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.2/sahal-shop-1.1.2.apk`
+- **Release GitHub** : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.2`
 - **API Vercel** : `https://sahal-shop-api.vercel.app/api`
 - **Santé API** : `https://sahal-shop-api.vercel.app/api/health`
-- **Expo Go (QR)** : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.1&channel=preview`
-- **Expo Go (lien direct)** : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.1&channel-name=preview`
+- **Expo Go (QR)** : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.2&channel=preview`
+- **Expo Go (lien direct)** : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.2&channel-name=preview`
 
 ---
 
@@ -331,19 +331,22 @@ Le backend est déployé sur **Vercel** :
 - API : `https://sahal-shop-api.vercel.app/api`
 - Santé : `https://sahal-shop-api.vercel.app/api/health`
 
-L'APK **preview** `1.1.1` pointe directement vers cette API publique. Il fonctionne donc hors du réseau local, sans lancer le backend sur le poste de développement.
+L'APK **preview** `1.1.2` pointe directement vers cette API publique. Il fonctionne donc hors du réseau local, sans lancer le backend sur le poste de développement.
 
-- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.1/sahal-shop-1.1.1.apk`
-- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.1`
-- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/90298700-968b-4c0d-92cb-be16e2c73b1e`
+- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.2/sahal-shop-1.1.2.apk`
+- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.2`
+- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/69609d0b-b2e2-4eb0-a56f-3aae48d03005`
 - Signature Android vérifiée (schéma v2), `package` : `com.sahalshop.app`
-- Version : `1.1.1` (`versionCode` 3), runtime EAS `1.1.1`
+- Version : `1.1.2` (`versionCode` 4), runtime EAS `1.1.2`
+- SHA-256 : `ED4CDBE8B51F6E3678FA5F5AABB1B3BE70BD80F2B328FBAEA737529CAA756E55`
 - Icône : logo officiel SAHAL SHOP (icône adaptative Android, splash et favicon)
+
+> **Correctif important :** l'APK `1.1.1` publié initialement contenait un bug d'import JavaScript qui provoquait un arrêt immédiat au démarrage. La version `1.1.2` corrige ce bug. Si l'ancienne version est installée, la remplacer par `1.1.2`.
 
 Installation sur Android :
 
 1. Ouvrir le lien de téléchargement depuis le téléphone.
-2. Télécharger `sahal-shop-1.1.1.apk`.
+2. Télécharger `sahal-shop-1.1.2.apk`.
 3. Autoriser l'installation depuis le navigateur ou le gestionnaire de fichiers si Android le demande.
 4. Ouvrir **SAHAL SHOP** et se connecter avec `cherif` / `admin123`.
 
@@ -354,9 +357,11 @@ Installation sur Android :
 
 Une mise à jour JavaScript a été publiée sur le canal `preview` le 12 novembre 2026 :
 
-- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.1&channel=preview`
-- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.1&channel-name=preview`
-- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/637cc578-9775-424b-8dcd-e9984543e3a9`
+- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.2&channel=preview`
+- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.2&channel-name=preview`
+- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/4c4dbc2b-1cf4-43d2-b2a3-af5ec787da80`
+
+Une mise à jour de secours a également été publiée pour le runtime `1.1.1` (groupe `51097998-18a7-408c-a79d-918220a77199`) afin de réparer les installations existantes.
 
 Prérequis :
 
