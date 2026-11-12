@@ -3,7 +3,7 @@
     "name": "SAHAL SHOP",
     "slug": "sahalshop",
     "owner": "cherifcoder",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "sahalshop",
@@ -15,7 +15,7 @@
     },
     "android": {
       "package": "com.sahalshop.app",
-      "versionCode": 1,
+      "versionCode": 2,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -56,6 +56,9 @@
     },
     "updates": {
       "url": "https://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

@@ -19,3 +19,23 @@ export async function connectDatabase() {
 export async function disconnectDatabase() {
   await mongoose.disconnect();
 }
+
+let connectionPromise;
+
+/**
+ * Connexion idempotente pour les environnements serverless (Vercel).
+ * La connexion est réutilisée entre les invocations à chaud.
+ */
+export function ensureDatabase() {
+  if (mongoose.connection.readyState === 1) {
+    return Promise.resolve();
+  }
+
+  if (!connectionPromise) {
+    connectionPromise = connectDatabase().finally(() => {
+      connectionPromise = null;
+    });
+  }
+
+  return connectionPromise;
+}

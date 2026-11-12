@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import { env } from "./config/env.js";
+import { ensureDatabase } from "./config/db.js";
 import { apiLimiter } from "./middleware/rateLimit.js";
 import { errorHandler, notFound } from "./middleware/error.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -48,6 +49,14 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api", apiLimiter);
+app.use("/api", async (_req, _res, next) => {
+  try {
+    await ensureDatabase();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 
-const API_URL_KEY = "@sahal/api_url";
+const API_URL_KEY = "@sahal/api_url_v2";
 const TOKEN_KEY = "@sahal/token";
 
 const envUrl = process.env.EXPO_PUBLIC_API_URL;

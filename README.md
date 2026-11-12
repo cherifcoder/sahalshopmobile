@@ -172,11 +172,11 @@ L'URL est résolue dans cet ordre (`mobile/src/api/config.js`) :
 Pour un build autonome, fournir une URL publique **au moment du build** :
 
 ```powershell
-$env:EXPO_PUBLIC_API_URL="https://sahal-shop-api.onrender.com/api"
+$env:EXPO_PUBLIC_API_URL="https://sahal-shop-api.vercel.app/api"
 npx eas-cli build --profile preview --platform android
 ```
 
-Ou déclarer la variable dans les variables d'environnement EAS du projet.
+Ou déclarer la variable dans les variables d'environnement EAS du projet (`eas env:set preview --name EXPO_PUBLIC_API_URL ...`).
 
 > Le build Android autorise le trafic HTTP en clair (`expo-build-properties`) pour faciliter les tests sur le réseau local.
 > En production, utiliser une URL **HTTPS** et vous pouvez retirer `usesCleartextTraffic` de `mobile/app.json`.
@@ -314,45 +314,45 @@ npx expo export --platform android --output-dir dist-check
 
 ---
 
-## Build Android de démonstration
+## API publique et build Android
 
-Un APK **preview** a été produit par EAS Build le 12 novembre 2026 :
+Le backend est déployé sur **Vercel** :
 
-- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.0.0/sahal-shop-1.0.0.apk`
-- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.0.0`
-- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/b20aa090-2b42-427d-99bb-6d3bf98aa22c`
-- APK EAS (temporaire) : `https://expo.dev/artifacts/eas/8ISzKgmBkDGI9AILkr0y6PIkKzceL7utPRp_-I6r2OA.apk` (lien EAS valable jusqu'au 26 novembre 2026)
-- Empreinte du commit : `518b46c`
+- API : `https://sahal-shop-api.vercel.app/api`
+- Santé : `https://sahal-shop-api.vercel.app/api/health`
+
+L'APK **preview** `1.1.0` pointe directement vers cette API publique. Il fonctionne donc hors du réseau local, sans lancer le backend sur le poste de développement.
+
+- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.0/sahal-shop-1.1.0.apk`
+- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.0`
+- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/c5560a02-fa4d-4abf-acaf-55221b41b9a9`
 - Signature Android vérifiée (schéma v2), `package` : `com.sahalshop.app`
-
-Ce build de démonstration utilise par défaut l'API locale `http://192.168.1.6:5000/api`.
-Il fonctionne donc sur le réseau Wi-Fi du poste de développement, avec `npm run dev` actif dans `backend/`.
-Pour l'utiliser sur un autre réseau, déployer l'API puis saisir son URL via **« Serveur : … »** sur l'écran de connexion, ou reconstruire l'APK avec `EXPO_PUBLIC_API_URL`.
+- Version : `1.1.0` (`versionCode` 2), runtime EAS `1.1.0`
 
 Installation sur Android :
 
 1. Ouvrir le lien de téléchargement depuis le téléphone.
-2. Télécharger `sahal-shop-1.0.0.apk`.
+2. Télécharger `sahal-shop-1.1.0.apk`.
 3. Autoriser l'installation depuis le navigateur ou le gestionnaire de fichiers si Android le demande.
 4. Ouvrir **SAHAL SHOP** et se connecter avec `cherif` / `admin123`.
 
 > L'APK est signé mais distribué hors Play Store : Android affiche un avertissement d'installation normale.
+> Changer le mot de passe administrateur avant une utilisation en production.
 
 ### Ouvrir l'application dans Expo Go (EAS Update)
 
 Une mise à jour JavaScript a été publiée sur le canal `preview` le 12 novembre 2026 :
 
-- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.0.0&channel=preview`
-- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.0.0&channel-name=preview`
-- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/3f781841-69de-4952-b276-2e375818d2b0`
+- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.0&channel=preview`
+- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.0&channel-name=preview`
+- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/83fbde03-fdc7-449f-8b7c-80af09d99f19`
 
 Prérequis :
 
 1. Installer **Expo Go** (version SDK 58) sur le téléphone.
-2. Être sur le même réseau Wi-Fi que le poste qui exécute l'API, ou saisir l'URL d'une API publique via **« Serveur : … »**.
-3. Lancer le backend avec `npm run dev` dans `backend/` tant que l'API n'est pas déployée.
+2. L'API Vercel est publique : aucun réseau local ni backend local n'est nécessaire.
 
-> Le lien Expo Go charge le bundle JavaScript publié ; il ne remplace pas l'APK. L'APK `preview` existant reste utilisable indépendamment.
+> Le lien Expo Go charge le bundle JavaScript publié ; il ne remplace pas l'APK. L'APK `preview` reste utilisable indépendamment.
 
 ---
 
@@ -373,7 +373,23 @@ git push -u origin main
 
 Le fichier `backend/.env` est ignoré : ne jamais committer de secret.
 
-### API publique (Render)
+### API publique (Vercel)
+
+Le backend est déployé sur Vercel dans le projet `sahal-shop-api` :
+
+- URL de production : `https://sahal-shop-api.vercel.app`
+- Santé : `https://sahal-shop-api.vercel.app/api/health`
+- Déploiement : `cd backend && npx vercel deploy --prod --yes`
+
+Vercel détecte l'application Express via `src/app.js`. La connexion MongoDB est établie de façon idempotente par `ensureDatabase()` pour être réutilisée entre les invocations serverless.
+
+Variables d'environnement à définir dans **Vercel → Project → Settings → Environment Variables** : `MONGODB_URI`, `MONGODB_DB`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `CORS_ORIGIN`, `SHOP_*`, `CURRENCY`, `CURRENCY_LABEL`, `TIMEZONE`.
+
+Dans MongoDB Atlas → **Network Access**, autoriser les connexions depuis Vercel. Pour un déploiement de démonstration, l'entrée `0.0.0.0/0` fonctionne ; pour la production, restreindre aux plages d'IP de Vercel ou utiliser Vercel Secure Compute.
+
+> La première requête après un cold start peut prendre quelques secondes (connexion Atlas).
+
+### API publique (Render, alternative)
 
 Le fichier `render.yaml` décrit un service Node gratuit à la racine du dépôt.
 
@@ -399,12 +415,17 @@ npx eas-cli init --account cherifcoder
 Puis, avec `EXPO_PUBLIC_API_URL` défini :
 
 ```powershell
+# URL de l'API Vercel pour le build preview
+npx eas-cli env:set preview --name EXPO_PUBLIC_API_URL --value "https://sahal-shop-api.vercel.app/api" --visibility plaintext --non-interactive
+
 # APK de test à installer directement
 npx eas-cli build --profile preview --platform android
 
 # Build de production (AAB pour le Play Store)
 npx eas-cli build --profile production --platform android
 ```
+
+Les profils `preview` et `production` de `mobile/eas.json` déclarent respectivement `"environment": "preview"` et `"environment": "production"`, ce qui charge automatiquement les variables EAS correspondantes.
 
 Mises à jour JavaScript sans recompilation native :
 
