@@ -8,15 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  getToken,
-  loadApiUrl,
-  onUnauthorized,
-  saveApiUrl,
-  saveToken,
-  setApiBaseUrl,
-  setAuthToken,
-} from "../api/config";
+import { getToken, loadApiUrl, saveApiUrl, saveToken } from "../api/config";
+import { onUnauthorized, setApiBaseUrl, setAuthToken } from "../api/client";
 import { authApi } from "../api/services";
 
 const AuthContext = createContext(null);
