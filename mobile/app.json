@@ -20,6 +20,9 @@
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
       }
     },
     "web": {
@@ -50,6 +53,9 @@
       "eas": {
         "projectId": "8ea3a6ee-f299-42aa-b9ab-486db14b4314"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314"
     }
   }
 }

@@ -327,6 +327,22 @@ Ce build de démonstration utilise par défaut l'API locale `http://192.168.1.6:
 Il fonctionne donc sur le réseau Wi-Fi du poste de développement, avec `npm run dev` actif dans `backend/`.
 Pour l'utiliser sur un autre réseau, déployer l'API puis saisir son URL via **« Serveur : … »** sur l'écran de connexion, ou reconstruire l'APK avec `EXPO_PUBLIC_API_URL`.
 
+### Ouvrir l'application dans Expo Go (EAS Update)
+
+Une mise à jour JavaScript a été publiée sur le canal `preview` le 12 novembre 2026 :
+
+- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.0.0&channel=preview`
+- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.0.0&channel-name=preview`
+- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/3f781841-69de-4952-b276-2e375818d2b0`
+
+Prérequis :
+
+1. Installer **Expo Go** (version SDK 58) sur le téléphone.
+2. Être sur le même réseau Wi-Fi que le poste qui exécute l'API, ou saisir l'URL d'une API publique via **« Serveur : … »**.
+3. Lancer le backend avec `npm run dev` dans `backend/` tant que l'API n'est pas déployée.
+
+> Le lien Expo Go charge le bundle JavaScript publié ; il ne remplace pas l'APK. L'APK `preview` existant reste utilisable indépendamment.
+
 ---
 
 ## Déploiement
@@ -382,7 +398,11 @@ npx eas-cli build --profile production --platform android
 Mises à jour JavaScript sans recompilation native :
 
 ```powershell
-npx eas-cli update --branch production --message "Correctifs SAHAL SHOP"
+# Publier sur le canal preview (variable EXPO_PUBLIC_API_URL de l'environnement EAS preview)
+npx eas-cli update --channel preview --environment preview --message "Correctifs SAHAL SHOP"
+
+# Publier sur le canal production
+npx eas-cli update --channel production --environment production --message "Correctifs SAHAL SHOP"
 ```
 
 Les profils se trouvent dans `mobile/eas.json` : `development` (client de développement), `preview` (APK) et `production` (AAB, version auto-incrémentée).
