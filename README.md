@@ -314,6 +314,21 @@ npx expo export --platform android --output-dir dist-check
 
 ---
 
+## Build Android de démonstration
+
+Un APK **preview** a été produit par EAS Build le 12 novembre 2026 :
+
+- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/b20aa090-2b42-427d-99bb-6d3bf98aa22c`
+- APK : `https://expo.dev/artifacts/eas/8ISzKgmBkDGI9AILkr0y6PIkKzceL7utPRp_-I6r2OA.apk` (lien EAS valable jusqu'au 26 novembre 2026)
+- Empreinte du commit : `518b46c`
+- Signature Android vérifiée (schéma v2), `package` : `com.sahalshop.app`
+
+Ce build de démonstration utilise par défaut l'API locale `http://192.168.1.6:5000/api`.
+Il fonctionne donc sur le réseau Wi-Fi du poste de développement, avec `npm run dev` actif dans `backend/`.
+Pour l'utiliser sur un autre réseau, déployer l'API puis saisir son URL via **« Serveur : … »** sur l'écran de connexion, ou reconstruire l'APK avec `EXPO_PUBLIC_API_URL`.
+
+---
+
 ## Déploiement
 
 ### GitHub

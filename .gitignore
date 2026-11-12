@@ -23,6 +23,9 @@ mobile/expo-env.d.ts
 *.key
 *.mobileprovision
 
+# Artefacts de build téléchargés localement
+artifacts/
+
 # Logs et divers
 *.log
 npm-debug.*
