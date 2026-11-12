@@ -7,10 +7,20 @@ Elle réunit la caisse, le stock, les ventes à crédit, les clients, les dépen
 - **API** : Node.js / Express 5, MongoDB Atlas / Mongoose 9, JWT, PDFKit.
 - **Langue** : interface et documents en français, montants en **FCFA (XOF)**.
 
+## Liens rapides
+
+- **APK Android 1.1.0** : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.0/sahal-shop-1.1.0.apk`
+- **Release GitHub** : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.0`
+- **API Vercel** : `https://sahal-shop-api.vercel.app/api`
+- **Santé API** : `https://sahal-shop-api.vercel.app/api/health`
+- **Expo Go (QR)** : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.0&channel=preview`
+- **Expo Go (lien direct)** : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.0&channel-name=preview`
+
 ---
 
 ## Sommaire
 
+- [Liens rapides](#liens-rapides)
 - [Fonctionnalités](#fonctionnalités)
 - [Architecture](#architecture)
 - [Démarrage rapide](#démarrage-rapide)
@@ -325,7 +335,7 @@ L'APK **preview** `1.1.0` pointe directement vers cette API publique. Il fonctio
 
 - Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.0/sahal-shop-1.1.0.apk`
 - Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.0`
-- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/c5560a02-fa4d-4abf-acaf-55221b41b9a9`
+- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/47180a09-8ec5-4bc9-b744-b99045797fcc`
 - Signature Android vérifiée (schéma v2), `package` : `com.sahalshop.app`
 - Version : `1.1.0` (`versionCode` 2), runtime EAS `1.1.0`
 
@@ -345,7 +355,7 @@ Une mise à jour JavaScript a été publiée sur le canal `preview` le 12 novemb
 
 - Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.0&channel=preview`
 - Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.0&channel-name=preview`
-- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/83fbde03-fdc7-449f-8b7c-80af09d99f19`
+- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/76c264c7-2769-453d-bacd-6222bb92ba24`
 
 Prérequis :
 
