@@ -318,14 +318,25 @@ npx expo export --platform android --output-dir dist-check
 
 Un APK **preview** a été produit par EAS Build le 12 novembre 2026 :
 
+- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.0.0/sahal-shop-1.0.0.apk`
+- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.0.0`
 - Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/b20aa090-2b42-427d-99bb-6d3bf98aa22c`
-- APK : `https://expo.dev/artifacts/eas/8ISzKgmBkDGI9AILkr0y6PIkKzceL7utPRp_-I6r2OA.apk` (lien EAS valable jusqu'au 26 novembre 2026)
+- APK EAS (temporaire) : `https://expo.dev/artifacts/eas/8ISzKgmBkDGI9AILkr0y6PIkKzceL7utPRp_-I6r2OA.apk` (lien EAS valable jusqu'au 26 novembre 2026)
 - Empreinte du commit : `518b46c`
 - Signature Android vérifiée (schéma v2), `package` : `com.sahalshop.app`
 
 Ce build de démonstration utilise par défaut l'API locale `http://192.168.1.6:5000/api`.
 Il fonctionne donc sur le réseau Wi-Fi du poste de développement, avec `npm run dev` actif dans `backend/`.
 Pour l'utiliser sur un autre réseau, déployer l'API puis saisir son URL via **« Serveur : … »** sur l'écran de connexion, ou reconstruire l'APK avec `EXPO_PUBLIC_API_URL`.
+
+Installation sur Android :
+
+1. Ouvrir le lien de téléchargement depuis le téléphone.
+2. Télécharger `sahal-shop-1.0.0.apk`.
+3. Autoriser l'installation depuis le navigateur ou le gestionnaire de fichiers si Android le demande.
+4. Ouvrir **SAHAL SHOP** et se connecter avec `cherif` / `admin123`.
+
+> L'APK est signé mais distribué hors Play Store : Android affiche un avertissement d'installation normale.
 
 ### Ouvrir l'application dans Expo Go (EAS Update)
 
