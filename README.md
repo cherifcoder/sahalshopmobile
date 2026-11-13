@@ -9,12 +9,12 @@ Elle réunit la caisse, le stock, les ventes à crédit, les clients, les dépen
 
 ## Liens rapides
 
-- **APK Android 1.1.2** : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.2/sahal-shop-1.1.2.apk`
-- **Release GitHub** : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.2`
+- **APK Android 1.1.3** : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.3/sahal-shop-1.1.3.apk`
+- **Release GitHub** : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.3`
 - **API Vercel** : `https://sahal-shop-api.vercel.app/api`
 - **Santé API** : `https://sahal-shop-api.vercel.app/api/health`
-- **Expo Go (QR)** : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.2&channel=preview`
-- **Expo Go (lien direct)** : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.2&channel-name=preview`
+- **Expo Go (QR)** : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.3&channel=preview`
+- **Expo Go (lien direct)** : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.3&channel-name=preview`
 
 ---
 
@@ -46,6 +46,7 @@ Elle réunit la caisse, le stock, les ventes à crédit, les clients, les dépen
 
 ### Stock
 - Fiches articles : prix d'achat, prix de vente, catégorie, unité, seuil d'alerte.
+- **Photos d'articles** depuis la galerie ou l'appareil photo : redimensionnement et compression automatiques sous **1 Mo**, avec une miniature légère pour les listes et l'image complète dans la fiche.
 - Entrées / sorties / ajustements manuels avec journal des mouvements.
 - **Pertes d'articles** (casse, vol, péremption) : stock décrémenté et perte valorisée au prix d'achat.
 - Archivage des articles au lieu d'une suppression destructive.
@@ -331,22 +332,24 @@ Le backend est déployé sur **Vercel** :
 - API : `https://sahal-shop-api.vercel.app/api`
 - Santé : `https://sahal-shop-api.vercel.app/api/health`
 
-L'APK **preview** `1.1.2` pointe directement vers cette API publique. Il fonctionne donc hors du réseau local, sans lancer le backend sur le poste de développement.
+L'APK **preview** `1.1.3` pointe directement vers cette API publique. Il fonctionne donc hors du réseau local, sans lancer le backend sur le poste de développement.
 
-- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.2/sahal-shop-1.1.2.apk`
-- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.2`
-- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/69609d0b-b2e2-4eb0-a56f-3aae48d03005`
+- Téléchargement direct (lien stable) : `https://github.com/cherifcoder/sahalshopmobile/releases/download/v1.1.3/sahal-shop-1.1.3.apk`
+- Page de la release : `https://github.com/cherifcoder/sahalshopmobile/releases/tag/v1.1.3`
+- Page du build : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/builds/18771fbd-d9ff-42b0-a51d-b9625c5790bc`
 - Signature Android vérifiée (schéma v2), `package` : `com.sahalshop.app`
-- Version : `1.1.2` (`versionCode` 4), runtime EAS `1.1.2`
-- SHA-256 : `ED4CDBE8B51F6E3678FA5F5AABB1B3BE70BD80F2B328FBAEA737529CAA756E55`
+- Version : `1.1.3` (`versionCode` 5), runtime EAS `1.1.3`
+- SHA-256 : `A412BF792EC28FD123C4B1AB77B1DDBDD87D477119592BB85E6567168B13CD19`
 - Icône : logo officiel SAHAL SHOP (icône adaptative Android, splash et favicon)
 
-> **Correctif important :** l'APK `1.1.1` publié initialement contenait un bug d'import JavaScript qui provoquait un arrêt immédiat au démarrage. La version `1.1.2` corrige ce bug. Si l'ancienne version est installée, la remplacer par `1.1.2`.
+> **Nouveautés 1.1.3 :** montants en **Ouguiya mauritanienne (UM / MRU)** et **photos d'articles** compressées automatiquement sous 1 Mo, avec miniature dans les listes. Cette version remplace les APK précédents.
+>
+> L'APK `1.1.1` publié initialement contenait un bug d'import JavaScript qui provoquait un arrêt immédiat au démarrage. La version `1.1.2` corrige ce bug, et `1.1.3` ajoute les photos et la devise UM.
 
 Installation sur Android :
 
 1. Ouvrir le lien de téléchargement depuis le téléphone.
-2. Télécharger `sahal-shop-1.1.2.apk`.
+2. Télécharger `sahal-shop-1.1.3.apk`.
 3. Autoriser l'installation depuis le navigateur ou le gestionnaire de fichiers si Android le demande.
 4. Ouvrir **SAHAL SHOP** et se connecter avec `cherif` / `admin123`.
 
@@ -355,11 +358,11 @@ Installation sur Android :
 
 ### Ouvrir l'application dans Expo Go (EAS Update)
 
-Une mise à jour JavaScript a été publiée sur le canal `preview` le 12 novembre 2026 :
+Une mise à jour JavaScript a été publiée sur le canal `preview` le 13 novembre 2026 pour le runtime `1.1.3` :
 
-- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.2&channel=preview`
-- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.2&channel-name=preview`
-- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/4c4dbc2b-1cf4-43d2-b2a3-af5ec787da80`
+- Lien QR Expo Go : `https://qr.expo.dev/eas-update?projectId=8ea3a6ee-f299-42aa-b9ab-486db14b4314&runtimeVersion=1.1.3&channel=preview`
+- Lien direct (à ouvrir sur le téléphone) : `exp://u.expo.dev/8ea3a6ee-f299-42aa-b9ab-486db14b4314?runtime-version=1.1.3&channel-name=preview`
+- Page EAS Update : `https://expo.dev/accounts/cherifcoder/projects/sahalshop/updates/8928e1c3-12c9-4df3-9690-a15118660abb`
 
 Une mise à jour de secours a également été publiée pour le runtime `1.1.1` (groupe `51097998-18a7-408c-a79d-918220a77199`) afin de réparer les installations existantes.
 

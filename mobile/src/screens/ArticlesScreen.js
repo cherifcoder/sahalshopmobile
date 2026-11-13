@@ -158,18 +158,19 @@ export default function ArticlesScreen({ navigation }) {
                 }
                 style={({ pressed }) => [styles.articleCard, pressed && styles.pressed]}
               >
-                <View style={styles.articleIcon}>
-                  <Text style={styles.articleInitial}>
-                    {article.name?.[0]?.toUpperCase() || "?"}
-                  </Text>
-                  {thumbnail ? (
-                    <Image
-                      source={{ uri: thumbnail }}
-                      style={styles.articlePhoto}
-                      resizeMode="cover"
-                    />
-                  ) : null}
-                </View>
+                {thumbnail ? (
+                  <Image
+                    source={{ uri: thumbnail }}
+                    style={styles.articleIcon}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View style={styles.articleIcon}>
+                    <Text style={styles.articleInitial}>
+                      {article.name?.[0]?.toUpperCase() || "?"}
+                    </Text>
+                  </View>
+                )}
                 <View style={{ flex: 1 }}>
                   <View style={styles.nameRow}>
                     <Text style={styles.articleName} numberOfLines={1}>
@@ -257,7 +258,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   articleInitial: { fontSize: 20, fontWeight: font.heavy, color: colors.primary },
-  articlePhoto: { ...StyleSheet.absoluteFillObject, borderRadius: 14 },
   nameRow: { flexDirection: "row", alignItems: "center", gap: 6 },
   articleName: { fontSize: 13.5, fontWeight: font.bold, color: colors.text, flexShrink: 1 },
   articleMeta: { fontSize: 10.5, color: colors.muted, marginTop: 2 },
