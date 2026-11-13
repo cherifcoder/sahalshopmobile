@@ -5,7 +5,7 @@ Elle réunit la caisse, le stock, les ventes à crédit, les clients, les dépen
 
 - **Mobile** : React Native / Expo SDK 58, React Navigation, stockage sécurisé de la session.
 - **API** : Node.js / Express 5, MongoDB Atlas / Mongoose 9, JWT, PDFKit.
-- **Langue** : interface et documents en français, montants en **FCFA (XOF)**.
+- **Langue** : interface et documents en français, montants en **Ouguiya mauritanienne (UM / MRU)**.
 
 ## Liens rapides
 
@@ -223,7 +223,7 @@ Pour la période sélectionnée :
 - **Encaissements** = paiements des ventes comptant + acomptes + remboursements de dettes.
 - **Créances** = somme des soldes clients restants.
 
-Les bornes de dates sont interprétées dans le fuseau du serveur. Le projet est configuré pour Dakar (`Africa/Dakar`, UTC+0) ; un serveur déployé en UTC produit donc les mêmes journées qu'au Sénégal.
+Les bornes de dates sont interprétées dans le fuseau du serveur. Le projet est configuré pour Nouakchott (`Africa/Nouakchott`, UTC+0) ; un serveur déployé en UTC produit donc les mêmes journées qu'en Mauritanie.
 
 ---
 
@@ -471,7 +471,7 @@ Les profils se trouvent dans `mobile/eas.json` : `development` (client de dével
 
 ## Limites connues
 
-- Les dates des périodes prédéfinies utilisent le fuseau du serveur : déployer en UTC ou régler `TZ=Africa/Dakar` pour le Sénégal.
+- Les dates des périodes prédéfinies utilisent le fuseau du serveur : déployer en UTC ou régler `TZ=Africa/Nouakchott` pour la Mauritanie.
 - Les factures PDF sont générées à la demande ; aucun fichier n'est conservé côté serveur.
 - L'application mobile n'est pas encore publiée sur le Play Store ; elle est distribuée via un APK EAS ou Expo Go.
 - La connexion HTTP locale nécessite que le téléphone puisse joindre l'IP du serveur sur le même réseau.

@@ -31,8 +31,11 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json({ limit: "2mb" }));
-app.use(express.urlencoded({ extended: true, limit: "2mb" }));
+// L'image est compressée sous 1 Mo mais voyage en base64 (+ environ 33 %).
+// Une limite de 3 Mo laisse la marge nécessaire sans exposer le serveur à
+// des requêtes démesurées.
+app.use(express.json({ limit: "3mb" }));
+app.use(express.urlencoded({ extended: true, limit: "3mb" }));
 
 if (env.nodeEnv !== "test") {
   app.use(morgan(env.nodeEnv === "development" ? "dev" : "combined"));

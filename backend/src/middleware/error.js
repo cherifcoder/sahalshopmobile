@@ -23,6 +23,12 @@ export const errorHandler = (error, _req, res, _next) => {
     message = "Identifiant invalide.";
   }
 
+  // Corps de requête trop volumineux (image envoyée avec une taille excessive)
+  if (error.type === "entity.too.large") {
+    status = 413;
+    message = "La requête est trop volumineuse. L'image doit faire moins de 1 Mo.";
+  }
+
   // Doublon (username, téléphone, référence...)
   if (error.code === 11000) {
     status = 409;

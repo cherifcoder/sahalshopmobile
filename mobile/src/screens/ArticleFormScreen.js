@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Switch, Text, View } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import { articleApi } from "../api/services";
 import {
   Badge,
@@ -13,7 +14,9 @@ import {
   SectionHeader,
 } from "../components";
 import { colors, font, radius, spacing } from "../theme";
+import { articleImageUri } from "../utils/articleImage";
 import { formatMoney } from "../utils/format";
+import { formatFileSize, prepareArticleImage } from "../utils/imageCompression";
 
 const CATEGORY_SUGGESTIONS = [
   "Alimentation",
@@ -47,6 +50,11 @@ export default function ArticleFormScreen({ navigation, route }) {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
+  const [imagePayload, setImagePayload] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [imageInfo, setImageInfo] = useState(null);
+  const [imageRemoved, setImageRemoved] = useState(false);
+  const [processingImage, setProcessingImage] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: isEdit ? "Modifier l'article" : "Nouvel article" });
@@ -70,6 +78,7 @@ export default function ArticleFormScreen({ navigation, route }) {
           unit: article.unit || "pièce",
           active: article.active !== false,
         });
+        if (article.hasImage) setImagePreview(articleImageUri(article, "full"));
       } catch (err) {
         setError(err.message || "Impossible de charger l'article.");
       } finally {
@@ -80,6 +89,93 @@ export default function ArticleFormScreen({ navigation, route }) {
 
   const set = (key) => (value) => setForm((prev) => ({ ...prev, [key]: value }));
 
+  const applyPickedImage = async (uri) => {
+    if (!uri) return;
+    setProcessingImage(true);
+    setError("");
+    try {
+      const prepared = await prepareArticleImage(uri);
+      setImagePayload(prepared);
+      setImagePreview(prepared.uri);
+      setImageInfo({
+        size: prepared.size,
+        width: prepared.width,
+        height: prepared.height,
+      });
+      setImageRemoved(false);
+    } catch (err) {
+      Alert.alert(
+        "Image non traitée",
+        err.message || "Impossible de préparer cette image."
+      );
+    } finally {
+      setProcessingImage(false);
+    }
+  };
+
+  const pickFromLibrary = async () => {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(
+        "Accès aux photos",
+        "Autorisez l'accès à la galerie pour ajouter une photo à l'article."
+      );
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      quality: 1,
+      allowsEditing: false,
+      selectionLimit: 1,
+    });
+    if (!result.canceled) await applyPickedImage(result.assets?.[0]?.uri);
+  };
+
+  const pickFromCamera = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(
+        "Appareil photo",
+        "Autorisez l'accès à l'appareil photo pour prendre une photo de l'article."
+      );
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ["images"],
+      quality: 1,
+      allowsEditing: false,
+    });
+    if (!result.canceled) await applyPickedImage(result.assets?.[0]?.uri);
+  };
+
+  const chooseImage = () => {
+    Alert.alert("Photo de l'article", "Choisissez une source", [
+      { text: "Galerie", onPress: pickFromLibrary },
+      { text: "Appareil photo", onPress: pickFromCamera },
+      { text: "Annuler", style: "cancel" },
+    ]);
+  };
+
+  const removeImage = () => {
+    Alert.alert(
+      "Supprimer la photo ?",
+      "L'article sera enregistré sans photo.",
+      [
+        { text: "Annuler", style: "cancel" },
+        {
+          text: "Supprimer",
+          style: "destructive",
+          onPress: () => {
+            setImagePayload(null);
+            setImageInfo(null);
+            setImagePreview("");
+            setImageRemoved(true);
+          },
+        },
+      ]
+    );
+  };
+
   const margin =
     Number(form.salePrice || 0) - Number(form.purchasePrice || 0);
   const marginRate =
@@ -88,6 +184,7 @@ export default function ArticleFormScreen({ navigation, route }) {
       : 0;
 
   const save = async () => {
+    if (processingImage) return;
     setError("");
     if (!form.name.trim()) return setError("Le nom de l'article est requis.");
     if (form.purchasePrice === "" || form.salePrice === "") {
@@ -113,6 +210,20 @@ export default function ArticleFormScreen({ navigation, route }) {
         unit: form.unit.trim() || "pièce",
         active: form.active,
       };
+      if (imagePayload) {
+        payload.image = {
+          data: imagePayload.base64,
+          mimeType: "image/jpeg",
+          width: imagePayload.width,
+          height: imagePayload.height,
+          thumbnailData: imagePayload.thumbnailBase64,
+          thumbnailMimeType: "image/jpeg",
+          thumbnailWidth: imagePayload.thumbnailWidth,
+          thumbnailHeight: imagePayload.thumbnailHeight,
+        };
+      } else if (imageRemoved) {
+        payload.removeImage = true;
+      }
       if (isEdit) {
         await articleApi.update(id, payload);
       } else {
@@ -237,6 +348,57 @@ export default function ArticleFormScreen({ navigation, route }) {
         autoCapitalize="sentences"
       />
 
+      <SectionHeader
+        title="Photo de l'article"
+        subtitle="Redimensionnée et compressée automatiquement sous 1 Mo"
+      />
+      <Card style={styles.imageCard}>
+        {imagePreview ? (
+          <Image
+            source={{ uri: imagePreview }}
+            style={styles.imagePreview}
+            resizeMode="cover"
+          />
+        ) : (
+          <View style={styles.imagePlaceholder}>
+            <Ionicons name="image-outline" size={34} color={colors.primary} />
+            <Text style={styles.imagePlaceholderText}>Aucune photo</Text>
+          </View>
+        )}
+        <View style={styles.imageActions}>
+          <Button
+            title={imagePreview ? "Changer la photo" : "Ajouter une photo"}
+            icon="camera-outline"
+            variant="secondary"
+            small
+            onPress={chooseImage}
+            loading={processingImage}
+            disabled={processingImage}
+            style={{ flex: 1 }}
+          />
+          {imagePreview ? (
+            <Button
+              title="Supprimer"
+              icon="trash-outline"
+              variant="ghost"
+              small
+              onPress={removeImage}
+              disabled={processingImage}
+              style={{ flex: 1 }}
+            />
+          ) : null}
+        </View>
+        <Text style={styles.imageHint}>
+          {processingImage
+            ? "Compression de l'image en cours…"
+            : imageInfo
+            ? `Photo prête : ${formatFileSize(imageInfo.size)} • ${imageInfo.width}×${imageInfo.height} px`
+            : imagePreview
+            ? "Photo actuelle. Vous pouvez la remplacer ou la supprimer."
+            : "Choisissez une photo depuis la galerie ou l'appareil photo."}
+        </Text>
+      </Card>
+
       <SectionHeader title="Prix & marge" />
       <View style={styles.row}>
         <Input
@@ -321,6 +483,7 @@ export default function ArticleFormScreen({ navigation, route }) {
         icon="checkmark-circle-outline"
         onPress={save}
         loading={saving}
+        disabled={processingImage}
         style={{ marginTop: spacing.lg }}
       />
       {isEdit ? (
@@ -398,4 +561,26 @@ const styles = StyleSheet.create({
   },
   activeTitle: { fontSize: 12.5, fontWeight: font.semibold, color: colors.text },
   activeText: { fontSize: 10.5, color: colors.muted, marginTop: 2, lineHeight: 15 },
+  imageCard: { gap: spacing.sm },
+  imagePreview: {
+    width: "100%",
+    height: 190,
+    borderRadius: radius.md,
+    backgroundColor: colors.surfaceAlt,
+  },
+  imagePlaceholder: {
+    width: "100%",
+    height: 150,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceAlt,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+  },
+  imagePlaceholderText: { fontSize: 12, color: colors.muted, fontWeight: font.medium },
+  imageActions: { flexDirection: "row", gap: spacing.sm },
+  imageHint: { fontSize: 10.5, color: colors.muted, lineHeight: 15 },
 });

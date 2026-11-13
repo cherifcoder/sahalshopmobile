@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { articleApi } from "../api/services";
 import {
   Badge,
@@ -15,6 +15,7 @@ import {
   StatCard,
 } from "../components";
 import { colors, font, radius, spacing } from "../theme";
+import { articleImageUri } from "../utils/articleImage";
 import { formatMoney, formatNumber } from "../utils/format";
 
 export default function ArticlesScreen({ navigation }) {
@@ -148,6 +149,7 @@ export default function ArticlesScreen({ navigation }) {
         <View style={{ gap: spacing.sm }}>
           {filtered.map((article) => {
             const low = article.stock <= article.alertThreshold;
+            const thumbnail = articleImageUri(article, "thumb");
             return (
               <Pressable
                 key={article._id}
@@ -160,6 +162,13 @@ export default function ArticlesScreen({ navigation }) {
                   <Text style={styles.articleInitial}>
                     {article.name?.[0]?.toUpperCase() || "?"}
                   </Text>
+                  {thumbnail ? (
+                    <Image
+                      source={{ uri: thumbnail }}
+                      style={styles.articlePhoto}
+                      resizeMode="cover"
+                    />
+                  ) : null}
                 </View>
                 <View style={{ flex: 1 }}>
                   <View style={styles.nameRow}>
@@ -245,8 +254,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryLight,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   articleInitial: { fontSize: 20, fontWeight: font.heavy, color: colors.primary },
+  articlePhoto: { ...StyleSheet.absoluteFillObject, borderRadius: 14 },
   nameRow: { flexDirection: "row", alignItems: "center", gap: 6 },
   articleName: { fontSize: 13.5, fontWeight: font.bold, color: colors.text, flexShrink: 1 },
   articleMeta: { fontSize: 10.5, color: colors.muted, marginTop: 2 },

@@ -27,12 +27,12 @@ services:
       - key: SHOP_PHONE
         sync: false
       - key: SHOP_ADDRESS
-        value: Dakar, Sénégal
+        value: Nouakchott, Mauritanie
       - key: SHOP_EMAIL
         sync: false
       - key: CURRENCY
-        value: XOF
+        value: MRU
       - key: CURRENCY_LABEL
-        value: FCFA
+        value: UM
       - key: TIMEZONE
-        value: Africa/Dakar
+        value: Africa/Nouakchott

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useLayoutEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { articleApi, lossApi } from "../api/services";
 import {
   Badge,
@@ -17,6 +17,7 @@ import {
   StatCard,
 } from "../components";
 import { colors, font, radius, spacing } from "../theme";
+import { articleImageUri } from "../utils/articleImage";
 import { LOSS_LABELS, formatDate, formatMoney, formatNumber } from "../utils/format";
 
 const MOVEMENT_LABELS = {
@@ -197,10 +198,16 @@ export default function ArticleDetailScreen({ navigation, route }) {
 
   const low = article.stock <= article.alertThreshold;
   const margin = article.salePrice - article.purchasePrice;
+  const fullImage = articleImageUri(article, "full");
 
   return (
     <>
       <Screen refreshing={refreshing} onRefresh={() => load(true)}>
+        {fullImage ? (
+          <View style={styles.detailImageCard}>
+            <Image source={{ uri: fullImage }} style={styles.detailImage} resizeMode="cover" />
+          </View>
+        ) : null}
         <Card style={styles.hero}>
           <View style={styles.heroTop}>
             <View style={styles.icon}>
@@ -482,6 +489,15 @@ export default function ArticleDetailScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  detailImageCard: {
+    borderRadius: radius.lg,
+    overflow: "hidden",
+    backgroundColor: colors.surfaceAlt,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: spacing.md,
+  },
+  detailImage: { width: "100%", height: 230 },
   hero: { backgroundColor: colors.surface },
   heroTop: { flexDirection: "row", gap: spacing.md, alignItems: "center" },
   icon: {

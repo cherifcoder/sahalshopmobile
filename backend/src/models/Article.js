@@ -34,7 +34,11 @@ const articleSchema = new mongoose.Schema(
     },
     alertThreshold: { type: Number, default: 5, min: 0 },
     unit: { type: String, default: "pièce", trim: true },
+    // Ancien champ conservé pour compatibilité. Les images sont désormais
+    // stockées dans la collection ArticleImage, séparément du document Article.
     imageUrl: { type: String, trim: true, default: "" },
+    hasImage: { type: Boolean, default: false },
+    imageVersion: { type: Date, default: null },
     active: { type: Boolean, default: true, index: true },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },

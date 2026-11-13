@@ -1,6 +1,6 @@
-export const CURRENCY = "FCFA";
+export const CURRENCY = "UM";
 
-/** Formatage monétaire sans décimales (FCFA). */
+/** Formatage monétaire sans décimales (Ouguiya mauritanienne). */
 export function formatMoney(value) {
   const number = Number(value) || 0;
   try {

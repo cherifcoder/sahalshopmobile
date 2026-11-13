@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
 import { Article } from "../models/Article.js";
+import { ArticleImage } from "../models/ArticleImage.js";
 import { StockMovement } from "../models/StockMovement.js";
+import {
+  deleteArticleImage,
+  normalizeArticleImagePayload,
+  saveArticleImage,
+} from "../services/articleImage.service.js";
 import { ApiError, asyncHandler, escapeRegex, money } from "../utils/ApiError.js";
 import { paged, pagination } from "../utils/pagination.js";
 
@@ -71,6 +77,36 @@ export const getArticle = asyncHandler(async (req, res) => {
   res.json({ success: true, article, movements });
 });
 
+/**
+ * GET /api/articles/:id/image?size=thumb|full
+ * Route publique : elle sert uniquement les photos de produits. Les buffers
+ * sont envoyés avec un cache long, ce qui évite de les recharger à chaque
+ * ouverture de la liste ou de la fiche article.
+ */
+export const getArticleImage = asyncHandler(async (req, res) => {
+  const size = req.query.size === "thumb" ? "thumb" : "full";
+  const image = await ArticleImage.findOne({ article: req.params.id }).select(
+    "+data +thumbnail contentType thumbnailContentType"
+  );
+
+  if (!image) throw new ApiError(404, "Image introuvable.");
+
+  const buffer = size === "thumb" ? image.thumbnail : image.data;
+  const contentType =
+    size === "thumb" ? image.thumbnailContentType : image.contentType;
+
+  if (!buffer || !buffer.length) throw new ApiError(404, "Image introuvable.");
+
+  res.set({
+    "Content-Type": contentType || "image/jpeg",
+    "Content-Length": String(buffer.length),
+    "Cache-Control": "public, max-age=31536000, immutable",
+    "X-Content-Type-Options": "nosniff",
+    "Content-Disposition": "inline",
+  });
+  res.send(buffer);
+});
+
 /** POST /api/articles */
 export const createArticle = asyncHandler(async (req, res) => {
   const {
@@ -84,6 +120,7 @@ export const createArticle = asyncHandler(async (req, res) => {
     alertThreshold = 5,
     unit = "pièce",
     imageUrl = "",
+    image,
   } = req.body;
 
   if (!name) throw new ApiError(400, "Le nom de l'article est requis.");
@@ -94,6 +131,10 @@ export const createArticle = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Les prix ne peuvent pas être négatifs.");
   }
   if (Number(stock) < 0) throw new ApiError(400, "Le stock ne peut pas être négatif.");
+
+  // Valider et décoder l'image avant d'ouvrir la transaction : une image
+  // invalide ne doit jamais créer un article à moitié enregistré.
+  const imagePayload = image != null ? normalizeArticleImagePayload(image) : null;
 
   const session = await mongoose.startSession();
   let article;
@@ -112,11 +153,17 @@ export const createArticle = asyncHandler(async (req, res) => {
             alertThreshold: Number(alertThreshold),
             unit,
             imageUrl,
+            hasImage: Boolean(imagePayload),
+            imageVersion: imagePayload ? new Date() : null,
             createdBy: req.user._id,
           },
         ],
         { session }
       );
+
+      if (imagePayload) {
+        await saveArticleImage(created._id, imagePayload, { session });
+      }
 
       if (Number(stock) > 0) {
         await StockMovement.create(
@@ -147,8 +194,10 @@ export const createArticle = asyncHandler(async (req, res) => {
 
 /** PUT /api/articles/:id */
 export const updateArticle = asyncHandler(async (req, res) => {
-  const article = await Article.findById(req.params.id);
-  if (!article) throw new ApiError(404, "Article introuvable.");
+  const rawImage = req.body.image;
+  const removeImage = req.body.removeImage === true || rawImage === null;
+  const imagePayload =
+    rawImage != null ? normalizeArticleImagePayload(rawImage) : null;
 
   const allowed = [
     "name",
@@ -163,15 +212,37 @@ export const updateArticle = asyncHandler(async (req, res) => {
     "active",
   ];
 
-  for (const field of allowed) {
-    if (req.body[field] !== undefined) article[field] = req.body[field];
+  const session = await mongoose.startSession();
+  let article;
+  try {
+    await session.withTransaction(async () => {
+      article = await Article.findById(req.params.id).session(session);
+      if (!article) throw new ApiError(404, "Article introuvable.");
+
+      for (const field of allowed) {
+        if (req.body[field] !== undefined) article[field] = req.body[field];
+      }
+
+      if (article.purchasePrice < 0 || article.salePrice < 0) {
+        throw new ApiError(400, "Les prix ne peuvent pas être négatifs.");
+      }
+
+      if (imagePayload) {
+        await saveArticleImage(article._id, imagePayload, { session });
+        article.hasImage = true;
+        article.imageVersion = new Date();
+      } else if (removeImage) {
+        await deleteArticleImage(article._id, { session });
+        article.hasImage = false;
+        article.imageVersion = null;
+      }
+
+      await article.save({ session });
+    });
+  } finally {
+    await session.endSession();
   }
 
-  if (article.purchasePrice < 0 || article.salePrice < 0) {
-    throw new ApiError(400, "Les prix ne peuvent pas être négatifs.");
-  }
-
-  await article.save();
   res.json({ success: true, article });
 });
 

@@ -4,6 +4,7 @@ import {
   createArticle,
   deleteArticle,
   getArticle,
+  getArticleImage,
   listArticles,
   listCategories,
   updateArticle,
@@ -11,6 +12,10 @@ import {
 import { protect } from "../middleware/auth.js";
 
 const router = Router();
+
+// Image publique (photo produit) : le cache natif de React Native peut la
+// charger directement, sans ajouter d'en-tête d'authentification.
+router.get("/:id/image", getArticleImage);
 
 router.use(protect);
 router.get("/", listArticles);
